@@ -8,7 +8,7 @@ const chatComponentStyle = {
   position: "fixed",
   bottom: "0",
   width: "80%",
-  left: "10%", // this will center it because it leaves 10% space on each side
+  left: "10%", 
   marginBottom: "20px",
 };
 
@@ -18,7 +18,7 @@ const pdfUploaderStyle = {
 };
 
 const renderQAStyle = {
-  height: "50%", // adjust the height as you see fit
+  height: "50%", 
   overflowY: "auto",
 };
 
