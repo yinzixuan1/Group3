@@ -1,0 +1,53 @@
+[
+    {
+      "username": "alice",
+      "password": "alice123",
+      "nickname": "Alice Johnson"
+    },
+    {
+      "username": "bobsmith",
+      "password": "bobpass456",
+      "nickname": "Bob Smith"
+    },
+    {
+      "username": "carol_d",
+      "password": "carol789",
+      "nickname": "Carol Davis"
+    },
+    {
+      "username": "davidlee",
+      "password": "davidlee1",
+      "nickname": "David Lee"
+    },
+    {
+      "username": "evamartinez",
+      "password": "evapass",
+      "nickname": "Eva Martinez"
+    },
+    {
+      "username": "frankh",
+      "password": "frank123",
+      "nickname": "Frank Harris"
+    },
+    {
+      "username": "grace_k",
+      "password": "gracepw",
+      "nickname": "Grace Kim"
+    },
+    {
+      "username": "henryw",
+      "password": "henrypass",
+      "nickname": "Henry Wilson"
+    },
+    {
+      "username": "ivyclark",
+      "password": "ivypass321",
+      "nickname": "Ivy Clark"
+    },
+    {
+      "username": "jackmiller",
+      "password": "jacklogin",
+      "nickname": "Jack Miller"
+    }
+  ]
+  
