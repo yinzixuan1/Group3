@@ -1,0 +1,48 @@
+## Overview
+
+This document provides an overview of the Jest testing setup for the project, including how to run tests, the structure of test files, and guidelines for writing new tests.
+
+## Running Tests
+
+To run all tests, use the following command:
+npm test
+
+
+This will execute all test files in the project and provide a summary of the results.
+
+## Test File Structure
+
+- **Backend Tests**: Located in the `server` directory, typically named with a `.test.js` suffix.
+- **Frontend Tests**: Located in the `src` directory, typically alongside the component files with a `.test.js` suffix.
+
+## Writing Tests
+
+### Backend Tests
+
+- Use `jest` for mocking modules and functions.
+- Test for various scenarios including success, failure, and edge cases.
+- Example: Testing a function that processes PDF files.
+
+### Frontend Tests
+
+- Use `@testing-library/react` for rendering components and simulating user interactions.
+- Test for component rendering, state changes, and event handling.
+- Example: Testing a search input and button in a chat component.
+
+## Common Commands
+
+- `npm test`: Run all tests.
+- `npm test -- --watch`: Run tests in watch mode.
+- `npm test -- --coverage`: Run tests and generate a coverage report.
+
+## Best Practices
+
+- Write tests for both expected and unexpected scenarios.
+- Keep tests isolated and independent.
+- Use descriptive test names to clearly indicate the purpose of each test.
+
+## Troubleshooting
+
+- Ensure all dependencies are installed and up-to-date.
+- Check for syntax errors or typos in test files.
+- Use `console.log` or `debugger` for debugging failing tests.

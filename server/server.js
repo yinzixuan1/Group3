@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import multer from "multer"; // Import multer
+import mongoose from "mongoose";
 import chat from "./chat.js";
 import User from "./models/User.js";
 import fs from 'fs';
@@ -11,8 +12,6 @@ import fs from 'fs';
 dotenv.config();
 
 // Connect to MongoDB using Mongoose
-import mongoose from "mongoose";
-
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -58,7 +57,15 @@ const storage = multer.diskStorage({
     cb(null, file.originalname);
   },
 });
-const upload = multer({ storage: storage });
+
+const upload = multer({ storage: storage, 
+  fileFilter: (req, file, cb) => {
+    if(file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only PDF files are allowed'), false);
+    }
+  } });
 
 const PORT = 5001;
 
@@ -67,8 +74,12 @@ let filePath;
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username, password });
-  
-  if (!user) return res.status(401).json({ error: "Invalid credentials" });
+
+  if (!username || !password) {
+    return res.status(400).json({ 
+      error: "Username and password are required" 
+    });
+  } else if (!user) return res.status(401).json({ error: "Invalid credentials" });
 
   res.status(200).json({ user });
 });
@@ -93,9 +104,21 @@ app.post("/api/register", async (req, res) => {
 
 
 app.post("/upload", upload.single("file"), async (req, res) => {
-  // Use multer to handle file upload
-  filePath = req.file.path; // The path where the file is temporarily saved
-  res.send(filePath + " upload successfully.");
+try{
+    if(!req.file){
+      return res.status(400).json({
+        error: "No file uploaded"
+      });
+    }
+    // Use multer to handle file upload
+    filePath = req.file.path; // The path where the file is temporarily saved
+    res.send(filePath + " upload successfully.");
+
+  } catch (error) {
+    res.status(400).json({ 
+      error: "File upload failed" 
+    });
+  }
 });
 
 app.get("/chat", async (req, res) => {

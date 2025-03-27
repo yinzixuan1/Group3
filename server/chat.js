@@ -5,6 +5,7 @@ import { RetrievalQAChain } from "langchain/chains";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { jest } from '@jest/globals';
+import { existsSync } from 'fs';
 
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 
@@ -13,6 +14,12 @@ const chat = async (filePath = "./uploads/hbs-lean-startup.pdf", query) => {
   if (!query || query.trim() === "") {
     return { text: "Please enter a valid question." };
   }
+
+  // Add file existence check
+  if (!existsSync(filePath)) {
+    throw new Error('File not found');
+  }
+
   // step 1:
   const loader = new PDFLoader(filePath);
 
