@@ -4,14 +4,19 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 
+// Simple login check using localStorage
+const isAuthenticated = () => {
+  return !!localStorage.getItem("user");
+};
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="/login" />, // 默认跳转到登录页
+    element: <Navigate to="/login" />, // Default: go to login
   },
   {
     path: "/home",
-    element: <Home />,
+    element: isAuthenticated() ? <Home /> : <Navigate to="/login" />, // Protected route
   },
   {
     path: "/login",

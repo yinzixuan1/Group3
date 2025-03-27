@@ -32,12 +32,32 @@ const Login = () => {
   //   }
   // )
 
-  const onFinish = (values) => {
-    const { username, password } = values || {};
-    console.log("Login form submitted:", values);
-
-    // run(username, password)
+  const onFinish = async (values) => {
+    const { username, password } = values;
+  
+    try {
+      const res = await fetch("http://localhost:5001/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        console.log(" Login successful:", data);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        nav("/home");
+        window.location.reload(); //  Force route re-check based on updated login state
+      } else {
+        console.error(" Login failed:", data.message || data.error);
+      }
+    } catch (err) {
+      console.error(" Error during login:", err);
+    }
   };
+  
+  
 
   return (
     <div className={styles.container}>

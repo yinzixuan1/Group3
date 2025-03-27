@@ -6,25 +6,30 @@ import { Link, useNavigate } from "react-router-dom";
 const { Title } = Typography;
 
 const Register = () => {
-  // const nav = useNavigate();
+  const [form] = Form.useForm();
+  const nav = useNavigate();
 
-  // const { run } = useRequest(
-  //   async (values) => {
-  //     const { username, password, nickname } = values;
-  //     await registerService(username, password, nickname);
-  //   },
-  //   {
-  //     manual: true,
-  //     onSuccess() {
-  //       message.success("register successfully");
-  //       nav("/login");
-  //     },
-  //   }
-  // );
+  const onFinish = async (values) => {
+    const { username, password, nickname } = values;
 
-  const onFinish = (values) => {
-    console.log(values);
-    // run(values);
+    try {
+      const res = await fetch("http://localhost:5001/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, nickname })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        console.log(" Registered successfully:", data);
+        nav("/login"); //  redirect to login page
+      } else {
+        console.error(" Register failed:", data.message || data.error);
+      }
+    } catch (err) {
+      console.error(" Error during register:", err);
+    }
   };
 
   return (
