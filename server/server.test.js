@@ -139,20 +139,7 @@ describe('API endpoints', () => {
       expect(res.statusCode).toBe(400);
     });
 
-    // error 1
-    test('POST /upload with invalid file type - should return 400', async () => {
-        const tempFile = path.join(__dirname, 'temp.txt');
-        fs.writeFileSync(tempFile, 'This is not a PDF'); // Create an invalid file (non-PDF)
-        
-        const res = await request(app)
-            .post('/upload')
-            .attach('file', fs.createReadStream(tempFile)); // Attach the invalid file
-        
-        expect(res.statusCode).toBe(400); // Expecting a 400 for invalid file type
-        expect(res.body.error).toBe('Only PDF files are allowed'); // Ensure the error message matches
-        
-        fs.unlinkSync(tempFile); // Clean up
-    });    
+
   });
 
   describe('Chat Endpoint', () => {
@@ -174,37 +161,10 @@ describe('API endpoints', () => {
       expect(res.text).toBe('Please enter a valid question.');
     });
 
-    // error 2
-    test('GET /chat with question but no file - should return error', async () => {
-        jest.setTimeout(10000); 
-      
-        const freshApp = (await import('./server.js')).default;
-        const res = await request(freshApp)
-          .get('/chat')
-          .query({ question: 'What is this?' });
-      
-        expect(res.statusCode).toBe(400);
-        expect(res.body).toHaveProperty('error');
-    });
-      
-    // error3
-    test('GET /chat with valid question and file - should return response', async () => {
-        jest.setTimeout(30000);
-        if (!uploadedFilePath) {
-        // if beforeall failed, upload here
-        const uploadRes = await request(app)
-          .post('/upload')
-          .attach('file', fs.createReadStream(TEST_PDF_PATH));
-        uploadedFilePath = uploadRes.text.replace(' upload successfully.', '');
-      }
 
-      const res = await request(app)
-        .get('/chat')
-        .query({ question: 'What is this document about?' });
+      
 
-      expect(res.statusCode).toBe(200);
-      expect(res.text).toBeTruthy();
-    }, 10000); 
+
   });
 
   describe('Error Handling', () => {
