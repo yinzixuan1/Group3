@@ -1,48 +1,153 @@
-## Overview
+Overview
+This document provides a detailed description of the test suites for the myPDFReader application, covering both the core chat functionality and API endpoints. The tests are divided into two main test files:
 
-This document provides an overview of the Jest testing setup for the project, including how to run tests, the structure of test files, and guidelines for writing new tests.
+chat.test.js - Tests the core PDF processing and chat functionality
 
-## Running Tests
+server.test.js - Tests the API endpoints including authentication, file upload, and chat interactions
 
-To run all tests, use the following command:
+Test Suites
+1. Core Chat Functionality (chat.test.js)
+Description
+Tests the main PDF processing pipeline including:
+
+PDF loading
+Text splitting
+Vector storage
+Chat interactions
+
+Test Cases
+Basic Functionality
+
+Valid query: Verifies the system returns a mocked answer for a valid query
+Input: Valid PDF path and question
+Expected: Returns "Mocked Answer"
+Input Validation
+
+Empty query: Tests handling of empty questions
+Input: Empty string
+Expected: Returns validation error message
+
+Whitespace-only query: Tests handling of whitespace input
+Input: String with only whitespace
+Expected: Returns validation error message
+
+Error Handling
+Non-existent file: Tests handling of invalid file paths
+Input: Non-existent PDF path
+Expected: Throws "File not found" error
+
+Invalid PDF format: Tests handling of corrupt PDFs
+Input: Path to invalid PDF
+Expected: Throws "Invalid PDF format" error
+
+Empty PDF file: Tests handling of empty PDFs
+Input: Path to empty PDF
+Expected: Throws "No documents to split" error
+
+Chain execution error: Tests error handling in the processing chain
+Input: Special "error query" string
+Expected: Throws "Mocked chain error"
+
+Edge Cases
+Large input query: Tests handling of large queries (10,000 characters)
+Input: Very long query string
+Expected: Processes successfully
+
+Special characters: Tests handling of queries with special characters
+Input: String with various special characters
+Expected: Processes successfully
+
+2. API Endpoints (server.test.js)
+Authentication Tests
+Login
+Invalid credentials: Tests failed login attempts
+Input: Wrong username/password
+Expected: Returns 401 status
+
+Valid credentials: Tests successful login
+Input: Correct username/password
+Expected: Returns user data with 200 status
+
+Missing fields: Tests validation of required fields
+Input: Requests missing username or password
+Expected: Returns 400 status
+
+Registration
+New user: Tests successful registration
+Input: New user details
+Expected: Creates user and returns 200 status
+
+Existing username: Tests duplicate username handling
+Input: Username that already exists
+Expected: Returns 400 status with error message
+
+File Upload Tests
+Valid PDF: Tests successful PDF upload
+Input: Valid PDF file
+Expected: Returns success message with 200 status
+
+No file: Tests missing file handling
+Input: No file attached
+Expected: Returns 400 status
+
+Invalid file type: Tests non-PDF file handling
+Input: Text file instead of PDF
+Expected: Returns 400 status with error message
+
+Chat Endpoint Tests
+No question: Tests missing question parameter
+Input: Empty request
+Expected: Returns validation message
+
+No file: Tests chat without uploaded file
+Input: Question but no PDF
+Expected: Returns 400 status with error
+
+Valid request: Tests successful chat interaction
+Input: Question with uploaded PDF
+Expected: Returns meaningful response with 200 status
+
+Error Handling
+Non-existent endpoint: Tests 404 handling
+Input: Request to invalid endpoint
+Expected: Returns 404 status
+
+Malformed JSON: Tests bad request handling
+Input: Invalid JSON payload
+Expected: Returns 400 status
+
+Test Environment
+Prerequisites
+Node.js environment
+Jest testing framework
+MongoDB test database
+Mock file system for upload tests
+
+Setup
+Test database connection established before all tests
+Database cleared before each test
+Test PDF file created if not exists
+All external services mocked
+
+Cleanup
+Database connection closed after all tests
+Temporary files removed
+Mock states reset
+
+Test Coverage
+The tests cover:
+100% of core chat functionality
+All major API endpoints
+Positive and negative test cases
+Edge cases and error conditions
+Input validation
+Authentication flows
+File handling
+
+Running Tests
+To execute all tests:
 npm test
 
-
-This will execute all test files in the project and provide a summary of the results.
-
-## Test File Structure
-
-- **Backend Tests**: Located in the `server` directory, typically named with a `.test.js` suffix.
-- **Frontend Tests**: Located in the `src` directory, typically alongside the component files with a `.test.js` suffix.
-
-## Writing Tests
-
-### Backend Tests
-
-- Use `jest` for mocking modules and functions.
-- Test for various scenarios including success, failure, and edge cases.
-- Example: Testing a function that processes PDF files.
-
-### Frontend Tests
-
-- Use `@testing-library/react` for rendering components and simulating user interactions.
-- Test for component rendering, state changes, and event handling.
-- Example: Testing a search input and button in a chat component.
-
-## Common Commands
-
-- `npm test`: Run all tests.
-- `npm test -- --watch`: Run tests in watch mode.
-- `npm test -- --coverage`: Run tests and generate a coverage report.
-
-## Best Practices
-
-- Write tests for both expected and unexpected scenarios.
-- Keep tests isolated and independent.
-- Use descriptive test names to clearly indicate the purpose of each test.
-
-## Troubleshooting
-
-- Ensure all dependencies are installed and up-to-date.
-- Check for syntax errors or typos in test files.
-- Use `console.log` or `debugger` for debugging failing tests.
+To run specific test suites:
+npm test chat.test.js
+npm test server.test.js
