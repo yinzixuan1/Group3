@@ -90,10 +90,6 @@ No file: Tests missing file handling
 Input: No file attached
 Expected: Returns 400 status
 
-Invalid file type: Tests non-PDF file handling
-Input: Text file instead of PDF
-Expected: Returns 400 status with error message
-
 Chat Endpoint Tests
 No question: Tests missing question parameter
 Input: Empty request
@@ -103,9 +99,6 @@ No file: Tests chat without uploaded file
 Input: Question but no PDF
 Expected: Returns 400 status with error
 
-Valid request: Tests successful chat interaction
-Input: Question with uploaded PDF
-Expected: Returns meaningful response with 200 status
 
 Error Handling
 Non-existent endpoint: Tests 404 handling

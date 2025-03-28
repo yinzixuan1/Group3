@@ -4,7 +4,7 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { RetrievalQAChain } from "langchain/chains";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { PromptTemplate } from "langchain/prompts";
-import { jest } from '@jest/globals';
+
 import { existsSync } from 'fs';
 
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
