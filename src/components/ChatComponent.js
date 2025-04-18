@@ -9,7 +9,9 @@ import Speech from "speak-tts";
 
 const { Search } = Input;
 
-const DOMAIN = "http://localhost:5001";
+// const DOMAIN = "http://localhost:5001";
+const DOMAIN = "https://smartpdfreader.onrender.com";
+
 
 const searchContainer = {
   display: "flex",
