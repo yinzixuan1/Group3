@@ -13,7 +13,8 @@ const Register = () => {
     const { username, password, nickname } = values;
 
     try {
-      const res = await fetch("http://localhost:5001/api/register", {
+      // const res = await fetch("http://localhost:5001/api/register", {
+      const res = await fetch("https://smartpdfreader.onrender.com/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, nickname })
