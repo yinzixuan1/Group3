@@ -72,7 +72,9 @@ const ChatComponent = (props) => {
       .then(() => {
         // if everyting went well, start listening again
         console.log("Success !");
-        userStartConvo();
+        setTimeout(() => {
+          userStartConvo(); // Delay restart to avoid mic picking up its own voice
+        }, 1000); 
       })
       .catch((e) => {
         console.error("An error occurred :", e);
