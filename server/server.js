@@ -7,7 +7,6 @@ import chat from "./chat.js";
 import User from "./models/User.js";
 import fs from 'fs';
 
-
 // Load .env variables
 dotenv.config();
 
@@ -44,7 +43,10 @@ if (process.env.NODE_ENV !== 'test') {
 
 // Initialize Express
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://smartpdfreader.netlify.app",
+  credentials: true
+}));
 app.use(express.json()); // Needed before routes
 
 
