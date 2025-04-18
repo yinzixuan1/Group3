@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import chat from "./chat.js";
 import User from "./models/User.js";
 import fs from 'fs';
+import path from "path";
 
 // Load .env variables
 dotenv.config();
@@ -52,6 +53,11 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 app.use(express.json()); // Needed before routes
 
+// Ensure uploads/ directory exists
+const uploadsDir = path.join(process.cwd(), "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -72,9 +78,14 @@ const upload = multer({ storage: storage,
     }
   } });
 
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 
 let filePath;
+
+app.get("/api/test", (req, res) => {
+  res.json({ message: "Backend is alive!" });
+});
+
 
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
