@@ -31,6 +31,17 @@ const ChatComponent = (props) => {
     resetTranscript,
   } = useSpeechRecognition();
 
+  
+  const resetEverything = () => {
+    resetTranscript();
+  };
+
+  const userStartConvo = useCallback(() => {
+    SpeechRecognition.startListening();
+    setIsRecording(true);
+    resetEverything();
+  }, [setIsRecording, resetEverything]);
+
   const talk = useCallback((what2say) => {
     speech
       .speak({
@@ -89,6 +100,28 @@ const ChatComponent = (props) => {
     }
   }, [isChatModeOn, handleResp, setIsLoading, talk]);
 
+  const chatModeClickHandler = () => {
+    setIsChatModeOn(!isChatModeOn);
+    setIsRecording(false);
+    SpeechRecognition.stopListening();
+  };
+
+  const recordingClickHandler = () => {
+    if (isRecording) {
+      setIsRecording(false);
+      SpeechRecognition.stopListening();
+    } else {
+      setIsRecording(true);
+      SpeechRecognition.startListening();
+    }
+  };
+
+
+  const handleChange = (e) => {
+    // Update searchValue state when the user types in the input box
+    setSearchValue(e.target.value);
+  };
+
   useEffect(() => {
     const speech = new Speech();
     speech
@@ -116,38 +149,6 @@ const ChatComponent = (props) => {
       setIsRecording(false);
     }
   }, [listening, transcript, onSearch]);
-
-  const userStartConvo = useCallback(() => {
-    SpeechRecognition.startListening();
-    setIsRecording(true);
-    resetEverything();
-  }, [setIsRecording]);
-
-  const resetEverything = () => {
-    resetTranscript();
-  };
-
-  const chatModeClickHandler = () => {
-    setIsChatModeOn(!isChatModeOn);
-    setIsRecording(false);
-    SpeechRecognition.stopListening();
-  };
-
-  const recordingClickHandler = () => {
-    if (isRecording) {
-      setIsRecording(false);
-      SpeechRecognition.stopListening();
-    } else {
-      setIsRecording(true);
-      SpeechRecognition.startListening();
-    }
-  };
-
-
-  const handleChange = (e) => {
-    // Update searchValue state when the user types in the input box
-    setSearchValue(e.target.value);
-  };
 
   return (
     <div style={searchContainer}>
