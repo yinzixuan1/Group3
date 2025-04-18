@@ -24,6 +24,7 @@ const ChatComponent = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const [isChatModeOn, setIsChatModeOn] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
   const [speech, setSpeech] = useState();
 
   // speech recognation
@@ -39,9 +40,10 @@ const ChatComponent = (props) => {
   }, [resetTranscript]);
 
   const userStartConvo = useCallback(() => {
-    SpeechRecognition.startListening();
-    setIsRecording(true);
     resetEverything();
+    setHasSearched(false); // reset search flag
+    setIsRecording(true);
+    SpeechRecognition.startListening();
   }, [setIsRecording, resetEverything]);
 
   const talk = useCallback((what2say) => {
@@ -148,11 +150,12 @@ const ChatComponent = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!listening && !!transcript) {
+    if (!listening && !!transcript && !hasSearched) {
+      setHasSearched(true); // prevent repeat
       (async () => await onSearch(transcript))();
       setIsRecording(false);
     }
-  }, [listening, transcript, onSearch]);
+  }, [listening, transcript, onSearch, hasSearched]);
 
   return (
     <div style={searchContainer}>
