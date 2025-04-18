@@ -31,35 +31,7 @@ const ChatComponent = (props) => {
     resetTranscript,
   } = useSpeechRecognition();
 
-  useEffect(() => {
-    const speech = new Speech();
-    speech
-      .init({
-        volume: 1,
-        lang: "en-US",
-        rate: 1,
-        pitch: 1,
-        voice: "Google US English",
-        splitSentences: true,
-      })
-      .then((data) => {
-        // The "data" object contains the list of available voices and the voice synthesis params
-        console.log("Speech is ready, voices are available", data);
-        setSpeech(speech);
-      })
-      .catch((e) => {
-        console.error("An error occured while initializing : ", e);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (!listening && !!transcript) {
-      (async () => await onSearch(transcript))();
-      setIsRecording(false);
-    }
-  }, [listening, transcript, onSearch]);
-
-  const talk = (what2say) => {
+  const talk = useCallback((what2say) => {
     speech
       .speak({
         text: what2say,
@@ -92,7 +64,58 @@ const ChatComponent = (props) => {
       .catch((e) => {
         console.error("An error occurred :", e);
       });
-  };
+  }, [speech]);
+
+  const onSearch = useCallback(async (question) => {
+    // Clear the search input
+    setSearchValue("");
+    setIsLoading(true);
+
+    try {
+      const response = await axios.get(`${DOMAIN}/chat`, {
+        params: {
+          question,
+        },
+      });
+      handleResp(question, response.data);
+      if (isChatModeOn) {
+        talk(response.data);
+      }
+    } catch (error) {
+      console.error(`Error: ${error}`);
+      handleResp(question, error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isChatModeOn, handleResp, setIsLoading, talk]);
+
+  useEffect(() => {
+    const speech = new Speech();
+    speech
+      .init({
+        volume: 1,
+        lang: "en-US",
+        rate: 1,
+        pitch: 1,
+        voice: "Google US English",
+        splitSentences: true,
+      })
+      .then((data) => {
+        // The "data" object contains the list of available voices and the voice synthesis params
+        console.log("Speech is ready, voices are available", data);
+        setSpeech(speech);
+      })
+      .catch((e) => {
+        console.error("An error occured while initializing : ", e);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!listening && !!transcript) {
+      (async () => await onSearch(transcript))();
+      setIsRecording(false);
+    }
+  }, [listening, transcript, onSearch]);
 
   const userStartConvo = () => {
     SpeechRecognition.startListening();
@@ -120,28 +143,6 @@ const ChatComponent = (props) => {
     }
   };
 
-  const onSearch = useCallback(async (question) => {
-    // Clear the search input
-    setSearchValue("");
-    setIsLoading(true);
-
-    try {
-      const response = await axios.get(`${DOMAIN}/chat`, {
-        params: {
-          question,
-        },
-      });
-      handleResp(question, response.data);
-      if (isChatModeOn) {
-        talk(response.data);
-      }
-    } catch (error) {
-      console.error(`Error: ${error}`);
-      handleResp(question, error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [isChatModeOn, handleResp, setIsLoading, talk]);
 
   const handleChange = (e) => {
     // Update searchValue state when the user types in the input box
