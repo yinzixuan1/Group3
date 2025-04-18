@@ -32,9 +32,9 @@ const ChatComponent = (props) => {
   } = useSpeechRecognition();
 
   
-  const resetEverything = () => {
+  const resetEverything = useCallback(() => {
     resetTranscript();
-  };
+  }, [resetTranscript]);
 
   const userStartConvo = useCallback(() => {
     SpeechRecognition.startListening();
