@@ -49,6 +49,7 @@ const corsOptions = {
 // Initialize Express
 const app = express();
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json()); // Needed before routes
 
 
