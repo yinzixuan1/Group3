@@ -48,6 +48,12 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json()); // Needed before routes
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://smartpdfreader.netlify.app");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 
 
 // Configure multer for file uploads
