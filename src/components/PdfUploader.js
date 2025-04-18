@@ -5,7 +5,8 @@ import { message, Upload } from "antd";
 
 const { Dragger } = Upload;
 
-const DOMAIN = "http://localhost:5001";
+// const DOMAIN = "http://localhost:5001";
+const DOMAIN = "https://pdfreader-j5xv.onrender.com";
 
 const uploadToBackend = async (file) => {
   const formData = new FormData();
