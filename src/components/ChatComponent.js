@@ -120,7 +120,7 @@ const ChatComponent = (props) => {
     }
   };
 
-  const onSearch = async (question) => {
+  const onSearch = useCallback(async (question) => {
     // Clear the search input
     setSearchValue("");
     setIsLoading(true);
@@ -141,7 +141,7 @@ const ChatComponent = (props) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isChatModeOn, handleResp, setIsLoading, talk]);
 
   const handleChange = (e) => {
     // Update searchValue state when the user types in the input box
