@@ -29,8 +29,6 @@ const ChatComponent = (props) => {
     transcript,
     listening,
     resetTranscript,
-    browserSupportsSpeechRecognition,
-    isMicrophoneAvailable,
   } = useSpeechRecognition();
 
   useEffect(() => {
@@ -59,7 +57,7 @@ const ChatComponent = (props) => {
       (async () => await onSearch(transcript))();
       setIsRecording(false);
     }
-  }, [listening, transcript]);
+  }, [listening, transcript, onSearch]);
 
   const talk = (what2say) => {
     speech

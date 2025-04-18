@@ -1,12 +1,12 @@
 import { UserAddOutlined } from "@ant-design/icons";
-import { Button, Form, Input, message, Space, Typography } from "antd";
+import { Button, Form, Input, Space, Typography } from "antd";
 import styles from "./Register.module.css";
 import { Link, useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 
 const Register = () => {
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
   const nav = useNavigate();
 
   const onFinish = async (values) => {

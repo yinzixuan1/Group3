@@ -5,7 +5,6 @@ import User from './models/User.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { jest } from '@jest/globals';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -131,15 +130,13 @@ describe('API endpoints', () => {
         .attach('file', fs.createReadStream(TEST_PDF_PATH));
 
       expect(res.statusCode).toBe(200);
-      expect(res.text).toMatch(/uploads\/.+? upload successfully/);
+      expect(res.text).toMatch(/uploads[\\/].+? upload successfully/);
     });
 
     test('POST /upload with no file - should return 400', async () => {
       const res = await request(app).post('/upload');
       expect(res.statusCode).toBe(400);
-    });
-
-
+    });   
   });
 
   describe('Chat Endpoint', () => {
@@ -160,11 +157,7 @@ describe('API endpoints', () => {
       expect(res.statusCode).toBe(200);
       expect(res.text).toBe('Please enter a valid question.');
     });
-
-
       
-
-
   });
 
   describe('Error Handling', () => {
