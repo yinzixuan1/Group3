@@ -64,7 +64,7 @@ const ChatComponent = (props) => {
       .catch((e) => {
         console.error("An error occurred :", e);
       });
-  }, [speech]);
+  }, [speech, userStartConvo]);
 
   const onSearch = useCallback(async (question) => {
     // Clear the search input
@@ -117,11 +117,11 @@ const ChatComponent = (props) => {
     }
   }, [listening, transcript, onSearch]);
 
-  const userStartConvo = () => {
+  const userStartConvo = useCallback(() => {
     SpeechRecognition.startListening();
     setIsRecording(true);
     resetEverything();
-  };
+  }, [setIsRecording]);
 
   const resetEverything = () => {
     resetTranscript();
