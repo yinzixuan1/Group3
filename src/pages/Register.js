@@ -17,7 +17,8 @@ const Register = () => {
       const res = await fetch("https://pdfreader-j5xv.onrender.com/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, nickname })
+        body: JSON.stringify({ username, password, nickname }),
+        credentials: "include"
       });
 
       const data = await res.json();
