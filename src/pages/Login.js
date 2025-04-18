@@ -36,7 +36,7 @@ const Login = () => {
     const { username, password } = values;
   
     try {
-      const res = await fetch("https://smartpdfreader.onrender.com/api/login", {
+      const res = await fetch("https://pdfreader-j5xv.onrender.com/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
